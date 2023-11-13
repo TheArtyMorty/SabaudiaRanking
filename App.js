@@ -1,20 +1,25 @@
-import { StatusBar } from 'expo-status-bar';
-import { StyleSheet, Text, View } from 'react-native';
+import HomeScreen from "./src/Screens/Home.js";
+import AddScoreScreen from "./src/Screens/AddScore.js";
+import AddPlayerScreen from "./src/Screens/AddPlayer.js";
+import RankingsScreen from "./src/Screens/Rankings.js";
 
-export default function App() {
+import * as React from "react";
+import { NavigationContainer } from "@react-navigation/native";
+import { createNativeStackNavigator } from "@react-navigation/native-stack";
+
+const Stack = createNativeStackNavigator();
+
+function App() {
   return (
-    <View style={styles.container}>
-      <Text>Open up App.js to start working on your app!</Text>
-      <StatusBar style="auto" />
-    </View>
+    <NavigationContainer>
+      <Stack.Navigator initialRouteName="HomeScreen">
+        <Stack.Screen name="Acceuil" component={HomeScreen} />
+        <Stack.Screen name="Ajouter un score" component={AddScoreScreen} />
+        <Stack.Screen name="Ajouter un joueur" component={AddPlayerScreen} />
+        <Stack.Screen name="Classement" component={RankingsScreen} />
+      </Stack.Navigator>
+    </NavigationContainer>
   );
 }
 
-const styles = StyleSheet.create({
-  container: {
-    flex: 1,
-    backgroundColor: '#fff',
-    alignItems: 'center',
-    justifyContent: 'center',
-  },
-});
+export default App;
