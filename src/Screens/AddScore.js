@@ -4,7 +4,7 @@ import { View, Text, TextInput, Alert } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { ref, onValue } from "firebase/database";
 import { db } from "../../firebaseConfig.js";
-import { addScore, updatePlayerMMR } from "../Services/ItemService.js";
+import { addScore, updatePlayerMMR } from "../Services/WebService.js";
 
 function AddScoreScreen({ navigation }) {
   const [dbInitialized, setDBInitialized] = useState(false);
@@ -34,7 +34,7 @@ function AddScoreScreen({ navigation }) {
   };
 
   if (!dbInitialized) {
-    const playersRef = ref(db, "ASPTT-74/players/");
+    const playersRef = ref(db, global.ClubPath + "/players/");
     onValue(playersRef, (snapshot) => {
       const data = snapshot.val();
       UpdatePlayerList(data);
@@ -120,33 +120,51 @@ function AddScoreScreen({ navigation }) {
     }
 
     // All is valid
-    // Log game
-    console.log(player1);
-    console.log(A3);
-    addScore(
-      player1,
-      player2,
-      player3,
-      player4,
-      winner,
-      a1,
-      a2,
-      a3,
-      b1,
-      b2,
-      b3
-    );
-    //Update mmr
     const mmr = winner == "A" ? 50 : -50;
-    updatePlayerMMR(player1.Key, player1.MMR + mmr);
-    updatePlayerMMR(player2.Key, player2.MMR + mmr);
-    updatePlayerMMR(player3.Key, player3.MMR - mmr);
-    updatePlayerMMR(player4.Key, player4.MMR - mmr);
 
-    navigation.pop();
     Alert.alert(
-      "Partie enregistrée",
-      "Victoire de l'équipe " + winner + ". Partie enregistrée avec succès..."
+      "Partie valide",
+      "Victoire de l'équipe " +
+        winner +
+        ". L'équipe gagnante va marquer " +
+        mmr +
+        " points, l'équipe perdante va perdre " +
+        mmr +
+        " points." +
+        "Confirmez vous ce résultat ?",
+      [
+        {
+          text: "Non",
+          onPress: () => {},
+        },
+        {
+          text: "Oui",
+          style: "cancel",
+          onPress: () => {
+            // log game
+            addScore(
+              player1,
+              player2,
+              player3,
+              player4,
+              winner,
+              a1,
+              a2,
+              a3,
+              b1,
+              b2,
+              b3
+            );
+            //Update mmr
+            updatePlayerMMR(player1.Key, player1.MMR + mmr);
+            updatePlayerMMR(player2.Key, player2.MMR + mmr);
+            updatePlayerMMR(player3.Key, player3.MMR - mmr);
+            updatePlayerMMR(player4.Key, player4.MMR - mmr);
+            navigation.pop();
+          },
+        },
+      ],
+      { cancelable: false }
     );
   };
 
@@ -194,9 +212,7 @@ function AddScoreScreen({ navigation }) {
       </View>
 
       <View style={Styles.subContainer}>
-        <Text style={Styles.defaultText}>Scores : </Text>
         <View style={Styles.lineContainer}>
-          <Text style={Styles.defaultText}>Set 1 : </Text>
           <TextInput
             style={Styles.scoreInput}
             keyboardType="numeric"
@@ -207,31 +223,27 @@ function AddScoreScreen({ navigation }) {
             style={Styles.scoreInput}
             keyboardType="numeric"
             placeholder="..."
-            onChangeText={(value) => setB1(value)}
-          ></TextInput>
-        </View>
-        <View style={Styles.lineContainer}>
-          <Text style={Styles.defaultText}>Set 2 : </Text>
-          <TextInput
-            style={Styles.scoreInput}
-            keyboardType="numeric"
-            placeholder="..."
             onChangeText={(value) => setA2(value)}
           ></TextInput>
           <TextInput
             style={Styles.scoreInput}
             keyboardType="numeric"
             placeholder="..."
-            onChangeText={(value) => setB2(value)}
+            onChangeText={(value) => setA3(value)}
           ></TextInput>
         </View>
         <View style={Styles.lineContainer}>
-          <Text style={Styles.defaultText}>Set 3 : </Text>
           <TextInput
             style={Styles.scoreInput}
             keyboardType="numeric"
             placeholder="..."
-            onChangeText={(value) => setA3(value)}
+            onChangeText={(value) => setB1(value)}
+          ></TextInput>
+          <TextInput
+            style={Styles.scoreInput}
+            keyboardType="numeric"
+            placeholder="..."
+            onChangeText={(value) => setB2(value)}
           ></TextInput>
           <TextInput
             style={Styles.scoreInput}

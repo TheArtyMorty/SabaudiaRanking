@@ -10,7 +10,6 @@ function RankingsScreen({ navigation }) {
 
   const UpdatePlayerList = (data) => {
     let newData = [];
-
     Object.values(data).forEach((player) => {
       newData.push({
         FirstName: player.FirstName,
@@ -24,7 +23,8 @@ function RankingsScreen({ navigation }) {
   };
 
   if (!dbInitialized) {
-    const playersRef = ref(db, "ASPTT-74/players/");
+    console.log(global.ClubPath);
+    const playersRef = ref(db, global.ClubPath + "/players/");
     onValue(playersRef, (snapshot) => {
       const data = snapshot.val();
       UpdatePlayerList(data);
@@ -39,7 +39,7 @@ function RankingsScreen({ navigation }) {
         return (
           <View style={Styles.playerRankingContainer} key={index}>
             <View style={Styles.lineContainer}>
-              <Text style={Styles.boldText}>#{index} -</Text>
+              <Text style={Styles.boldText}>#{index + 1} -</Text>
               <Text style={Styles.defaultText}>
                 {p.FirstName} {p.LastName} ({p.Pseudo})
               </Text>

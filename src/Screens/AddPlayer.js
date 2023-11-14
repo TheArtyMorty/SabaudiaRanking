@@ -1,7 +1,7 @@
 import React, { useState } from "react";
 import Styles from "../Styles.js";
 import { View, Text, TextInput, Alert } from "react-native";
-import { addPlayer } from "../Services/ItemService.js";
+import { addPlayer } from "../Services/WebService.js";
 
 function AddPlayerScreen({ navigation }) {
   const [lastName, setLastName] = useState("");

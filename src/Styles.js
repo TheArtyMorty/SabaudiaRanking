@@ -18,6 +18,7 @@ const Styles = StyleSheet.create({
     borderWidth: 1,
     borderRadius: 1,
     width: 200,
+    margin: 5,
   },
 
   defaultInput: {
@@ -25,14 +26,20 @@ const Styles = StyleSheet.create({
     backgroundColor: "white",
     fontSize: 20,
     width: 200,
+    margin: 5,
   },
 
   scoreInput: {
     fontWeight: "bold",
     backgroundColor: "white",
     fontSize: 20,
-    width: 50,
-    margin: 5,
+    width: 40,
+    height: 40,
+    alignItems: "center",
+    justifyContent: "center",
+    textAlign: "center",
+    marginLeft: 45,
+    marginRight: 45,
   },
 
   defaultButton: {

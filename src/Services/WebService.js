@@ -2,7 +2,7 @@ import { ref, set, child, push, update } from "firebase/database";
 import { db } from "../../firebaseConfig.js";
 
 export const addPlayer = (lastName, firstName, pseudo) => {
-  const newItemKey = push(child(ref(db), "ASPTT-74/players")).key;
+  const newItemKey = push(child(ref(db), global.ClubPath + "/players")).key;
   const itemData = {
     LastName: lastName,
     FirstName: firstName,
@@ -11,13 +11,13 @@ export const addPlayer = (lastName, firstName, pseudo) => {
     Key: newItemKey,
   };
   const updates = {};
-  updates["ASPTT-74/players/" + newItemKey] = itemData;
+  updates[global.ClubPath + "/players/" + newItemKey] = itemData;
 
   update(ref(db), updates);
 };
 
 export const updatePlayerMMR = (playerKey, newMMR) => {
-  set(ref(db, "ASPTT-74/players/" + playerKey + "/MMR"), newMMR);
+  set(ref(db, global.ClubPath + "/players/" + playerKey + "/MMR"), newMMR);
 };
 
 export const addScore = (
@@ -44,10 +44,10 @@ export const addScore = (
     },
   };
 
-  const newItemKey = push(child(ref(db), "ASPTT-74/games")).key;
+  const newItemKey = push(child(ref(db), global.ClubPath + "/games")).key;
 
   const updates = {};
-  updates["ASPTT-74/games/" + newItemKey] = itemData;
+  updates[global.ClubPath + "/games/" + newItemKey] = itemData;
 
   update(ref(db), updates);
 };
