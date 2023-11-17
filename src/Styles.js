@@ -52,6 +52,15 @@ const Styles = StyleSheet.create({
     alignItems: "center",
   },
 
+  defaultScrollView: {
+    backgroundColor: "#ffffff99",
+    borderColor: "black",
+    borderWidth: 2,
+    margin: 10,
+    borderRadius: 5,
+    width: "95%",
+  },
+
   defaultButtonContent: {
     color: "white",
     fontWeight: "normal",
@@ -63,6 +72,7 @@ const Styles = StyleSheet.create({
     alignItems: "center",
     justifyContent: "center",
     backgroundColor: "#B7D0FF",
+    width: "100%",
   },
 
   subContainer: {
@@ -78,7 +88,7 @@ const Styles = StyleSheet.create({
     justifyContent: "top",
     backgroundColor: "#00000023",
     margin: 5,
-    width: "80%",
+    width: "95%",
   },
 
   lineContainer: {

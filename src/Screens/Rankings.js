@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Styles from "../Styles.js";
-import { View, Text } from "react-native";
+import { View, Text, ScrollView } from "react-native";
 import { ref, onValue } from "firebase/database";
 import { db } from "../../firebaseConfig.js";
 
@@ -40,9 +40,7 @@ function RankingsScreen({ navigation }) {
           <View style={Styles.playerRankingContainer} key={index}>
             <View style={Styles.lineContainer}>
               <Text style={Styles.boldText}>#{index + 1} -</Text>
-              <Text style={Styles.defaultText}>
-                {p.FirstName} {p.LastName} ({p.Pseudo})
-              </Text>
+              <Text style={Styles.defaultText}>{p.Pseudo}</Text>
               <Text style={Styles.defaultText}> - {p.MMR}Pts -</Text>
             </View>
           </View>
@@ -53,7 +51,9 @@ function RankingsScreen({ navigation }) {
   return (
     <View style={Styles.mainContainer}>
       <Text style={Styles.defaultText}>Classement : </Text>
-      {GetPlayerList()}
+      <ScrollView style={Styles.defaultScrollView}>
+        {GetPlayerList()}
+      </ScrollView>
     </View>
   );
 }

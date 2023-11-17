@@ -4,7 +4,7 @@ import { View, Text } from "react-native";
 import { getAdmin, getClub } from "../Services/LocalService.js";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
-function HomeScreen({ navigation }) {
+function HomeScreen({ navigation, route }) {
   const [isAdmin, setisAdmin] = useState(false);
 
   const OnPageLoaded = () => {

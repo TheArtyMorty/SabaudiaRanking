@@ -56,12 +56,12 @@ function Club({ navigation }) {
       if (pwd == club.pwd) {
         storeAdmin("false");
         navigateBackTriggered = true;
-        navigation.navigate("Acceuil");
+        navigation.navigate("Acceuil", { admin: false });
         return true;
       } else if (pwd == club.adminpwd) {
         storeAdmin("true");
         navigateBackTriggered = true;
-        navigation.navigate("Acceuil");
+        navigation.navigate("Acceuil", { admin: true });
         return true;
       } else {
         alert("Mot de passe erroné...");

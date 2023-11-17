@@ -9,12 +9,16 @@ function AddPlayerScreen({ navigation }) {
   const [pseudo, setPseudo] = useState("");
 
   const createPlayer = () => {
-    addPlayer(lastName, firstName, pseudo);
-    navigation.pop();
-    Alert.alert(
-      "Ajout réussi",
-      `Le joueur ${pseudo} a été ajouté avec succès !`
-    );
+    if (pseudo != "") {
+      addPlayer(lastName, firstName, pseudo);
+      navigation.pop();
+      Alert.alert(
+        "Ajout réussi",
+        `Le joueur ${pseudo} a été ajouté avec succès !`
+      );
+    } else {
+      Alert.alert("Erreur", `Veuillez choisir un pseudo pour le joueur...`);
+    }
   };
 
   return (
