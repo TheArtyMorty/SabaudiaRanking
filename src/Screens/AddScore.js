@@ -42,15 +42,10 @@ function AddScoreScreen({ navigation }) {
     });
   }
 
-  const isSetValid = (a, b, setNumber) => {
-    if (isNaN(a) || isNaN(b)) {
-      Alert.alert("Erreur", `Erreur : Format de score incorrect...`);
-      return false;
-    }
+  const isSetOfficial = (a, b) => {
     const scoreA = Math.floor(a);
     const scoreB = Math.floor(b);
-
-    if (
+    return (
       (scoreA == 21 && scoreB < 20) ||
       (scoreB == 21 && scoreA < 20) ||
       (scoreA == 30 && scoreB == 29) ||
@@ -60,15 +55,71 @@ function AddScoreScreen({ navigation }) {
         scoreA <= 30 &&
         scoreB <= 30 &&
         Math.abs(scoreA - scoreB) == 2)
-    ) {
-      return true;
-    } else {
+    );
+  };
+
+  const isSetValid = (a, b, setNumber) => {
+    if (isNaN(a) || isNaN(b)) {
       Alert.alert(
         "Erreur",
-        "Erreur : Score set " + setNumber + " incorrect..."
+        `Erreur : Format de score incorrect pour le set` + setNumber + `...`
       );
       return false;
     }
+    const scoreA = Math.floor(a);
+    const scoreB = Math.floor(b);
+
+    return scoreA != scoreB;
+  };
+
+  const getTeamNote = (p1, p2) => {
+    const maxMmr = Math.max(p1.MMR, p2.MMR);
+    const minMmr = Math.min(p1.MMR, p2.MMR);
+    return Math.round(
+      (maxMmr - minMmr) / minMmr >= 0.4
+        ? (maxMmr * 1.5 + minMmr) / 2.5
+        : (maxMmr + 1.5 * minMmr) / 2.5
+    );
+  };
+
+  const getMmrGain = (
+    player1,
+    player2,
+    player3,
+    player4,
+    twosets,
+    ptsWinner,
+    ptsLooser
+  ) => {
+    //Notes
+    const noteA = getTeamNote(player1, player2);
+    const noteB = getTeamNote(player3, player4);
+    //Ecart
+    const lowMmrMoyen = Math.min(noteA, noteB);
+    const topMmrMoyen = Math.max(noteA, noteB);
+    const ecart = topMmrMoyen / lowMmrMoyen - 1;
+    //proba win
+    const probaWl = Math.max(0.01, 0.5 - ecart);
+    const probaWt = Math.min(0.99, 0.5 + ecart);
+    //gain
+    const gain = Math.max(25 * (noteA > noteB ? probaWt : probaWl), 1);
+    // bonuses
+    const bonus2sets = twosets ? 5 * (noteA > noteB ? probaWl : probaWt) : 0;
+    const bonusPts =
+      Math.min(Math.floor((ptsWinner - ptsLooser) / ptsLooser / 0.05), 5) *
+      (noteA > noteB ? probaWl : probaWt);
+    console.log("------");
+    /*console.log(noteA);
+    console.log(noteB);
+    console.log(lowMmrMoyen);
+    console.log(topMmrMoyen);
+    console.log(ecart);
+    console.log(probaWl);
+    console.log(probaWt);*/
+    console.log(gain);
+    console.log(bonus2sets);
+    console.log(bonusPts);
+    return Math.floor(gain + bonus2sets + bonusPts);
   };
 
   const validateGame = () => {
@@ -95,8 +146,12 @@ function AddScoreScreen({ navigation }) {
       return;
     }
     // check scores are valid
+    let scoreFede = true;
     if (!isSetValid(A1, B1, 1) || !isSetValid(A2, B2, 2)) {
       return;
+    }
+    if (!isSetOfficial(A1, B1) || !isSetOfficial(A2, B2)) {
+      scoreFede = false;
     }
 
     const a1 = Math.floor(A1);
@@ -112,6 +167,9 @@ function AddScoreScreen({ navigation }) {
       if (!isSetValid(A3, B3, 3)) {
         return;
       }
+      if (!isSetOfficial(A3, B3)) {
+        scoreFede = false;
+      }
       winner = a3 > b3 ? "A" : "B";
     } else {
       winner = v1;
@@ -120,18 +178,37 @@ function AddScoreScreen({ navigation }) {
     }
 
     // All is valid
-    const mmr = winner == "A" ? 50 : -50;
+    const scoreA = a1 + a2 + (isNaN(a3) ? 0 : a3);
+    const scoreB = b1 + b2 + (isNaN(b3) ? 0 : b3);
+    const mmrGain = getMmrGain(
+      player1,
+      player2,
+      player3,
+      player4,
+      v1 == v2,
+      winner == "A" ? scoreA : scoreB,
+      winner == "A" ? scoreB : scoreA
+    );
+    const mmr = winner == "A" ? mmrGain : -mmrGain;
+
+    //alert en cas de match pas fédé
+    const invalidMessage = scoreFede
+      ? ""
+      : "Attention : Au moins un des set n'est pas valide selon la fédé... \n \n";
 
     Alert.alert(
       "Partie valide",
-      "Victoire de l'équipe " +
+      invalidMessage +
+        "Victoire de l'équipe " +
         winner +
-        ". L'équipe gagnante va marquer " +
-        mmr +
-        " points, l'équipe perdante va perdre " +
-        mmr +
+        ".\n L'équipe " +
+        winner +
+        " va marquer " +
+        Math.abs(mmr) +
+        " points. \n L'autre équipe va perdre " +
+        Math.abs(mmr) +
         " points." +
-        "Confirmez vous ce résultat ?",
+        "\n Confirmez vous ce résultat ?",
       [
         {
           text: "Non",

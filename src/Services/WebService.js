@@ -42,6 +42,7 @@ export const addScore = (
       set2: { A: A2, B: B2 },
       set3: { A: A3, B: B3 },
     },
+    Date: new Date().toLocaleString(),
   };
 
   const newItemKey = push(child(ref(db), global.ClubPath + "/games")).key;

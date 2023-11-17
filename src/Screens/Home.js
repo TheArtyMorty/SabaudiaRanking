@@ -9,7 +9,6 @@ function HomeScreen({ navigation }) {
 
   const OnPageLoaded = () => {
     getClub().then((v) => {
-      console.log(v);
       if (v == "") {
         navigation.navigate("Choisissez votre club");
       } else {
@@ -17,7 +16,6 @@ function HomeScreen({ navigation }) {
       }
     });
     getAdmin().then((v) => {
-      console.log(v);
       if (v == "true") {
         setisAdmin(true);
       } else {

@@ -46,17 +46,22 @@ function Club({ navigation }) {
   const [club, setclub] = useState(defaultClub);
   const [pwd, setpwd] = useState("");
   const [clubChosen, setclubChosen] = useState(false);
+  let navigateBackTriggered = false;
 
-  const isClubValid = () => {
+  const NavigateBackIfClubValid = () => {
     if (!clubChosen) {
       alert("Selectionnez le club...");
       return false;
     } else {
       if (pwd == club.pwd) {
         storeAdmin("false");
+        navigateBackTriggered = true;
+        navigation.navigate("Acceuil");
         return true;
       } else if (pwd == club.adminpwd) {
         storeAdmin("true");
+        navigateBackTriggered = true;
+        navigation.navigate("Acceuil");
         return true;
       } else {
         alert("Mot de passe erroné...");
@@ -85,14 +90,13 @@ function Club({ navigation }) {
   React.useEffect(
     () =>
       navigation.addListener("beforeRemove", (e) => {
-        if (!isClubValid()) {
-          e.preventDefault();
-          return;
-        } else {
+        if (navigateBackTriggered) {
           navigation.dispatch(e.data.action);
         }
+        e.preventDefault();
+        NavigateBackIfClubValid();
       }),
-    [navigation, club, clubChosen, pwd]
+    [navigation, club, clubChosen, pwd, navigateBackTriggered]
   );
 
   return (
@@ -112,14 +116,7 @@ function Club({ navigation }) {
         onChangeText={ChangePwd}
       ></TextInput>
 
-      <View
-        onTouchStart={() => {
-          if (isClubValid()) {
-            navigation.pop();
-          }
-        }}
-        style={Styles.defaultButton}
-      >
+      <View onTouchStart={NavigateBackIfClubValid} style={Styles.defaultButton}>
         <Text style={Styles.defaultButtonContent}>Valider</Text>
       </View>
     </View>
