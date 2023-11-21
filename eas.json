@@ -27,3 +27,6 @@
 
 // Pour build :
 // eas build --profile production --platform android
+
+// Pour un apk :
+// eas build --profile test --platform android

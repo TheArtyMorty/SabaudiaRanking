@@ -5,13 +5,17 @@ import { Picker } from "@react-native-picker/picker";
 import { db } from "../../firebaseConfig.js";
 import { ref, get, child } from "firebase/database";
 import { storeAdmin, storeClub } from "../Services/LocalService.js";
+import {
+  GetStyle1FromTheme,
+  GetStyle2FromTheme,
+} from "../Services/ThemeUtility.js";
 
 const getClubs = async () => {
   const dbRef = ref(db);
   return await get(child(dbRef, "Clubs/"));
 };
 
-function Club({ navigation }) {
+function Club({ navigation, route }) {
   const [dbInitialized, setDBInitialized] = useState(false);
   const [clubList, setClubList] = useState([]);
 
@@ -51,34 +55,38 @@ function Club({ navigation }) {
   const NavigateBackIfClubValid = () => {
     if (!clubChosen) {
       alert("Selectionnez le club...");
-      return false;
     } else {
       if (pwd == club.pwd) {
         storeAdmin("false");
+        storeClub(club.Name);
+        global.ClubPath = club.Name;
         navigateBackTriggered = true;
-        navigation.navigate("Acceuil", { admin: false });
+        route.params.setRefresh();
+        navigation.navigate("Acceuil");
         return true;
       } else if (pwd == club.adminpwd) {
         storeAdmin("true");
+        storeClub(club.Name);
+        global.ClubPath = club.Name;
         navigateBackTriggered = true;
-        navigation.navigate("Acceuil", { admin: true });
+        route.params.setRefresh();
+        navigation.navigate("Acceuil");
         return true;
       } else {
         alert("Mot de passe erroné...");
       }
     }
+    storeClub("");
+    storeAdmin("false");
+    return false;
   };
 
   const ChooseAClub = (club) => {
     if (club.Name != "...") {
       setclub(club);
-      storeClub(club.Name);
       setclubChosen(true);
-
-      global.ClubPath = club.Name;
     } else {
       setclub(club);
-      storeClub("");
       setclubChosen(false);
     }
   };
@@ -100,7 +108,7 @@ function Club({ navigation }) {
   );
 
   return (
-    <View style={Styles.mainContainer}>
+    <View style={[Styles.mainContainer, GetStyle1FromTheme()]}>
       <Text style={Styles.defaultText}>Choisissez votre club :</Text>
       <Picker
         style={Styles.defaultPicker}
@@ -116,7 +124,10 @@ function Club({ navigation }) {
         onChangeText={ChangePwd}
       ></TextInput>
 
-      <View onTouchStart={NavigateBackIfClubValid} style={Styles.defaultButton}>
+      <View
+        onTouchStart={NavigateBackIfClubValid}
+        style={[Styles.defaultButton, GetStyle2FromTheme()]}
+      >
         <Text style={Styles.defaultButtonContent}>Valider</Text>
       </View>
     </View>

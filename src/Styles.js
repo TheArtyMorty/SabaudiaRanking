@@ -1,6 +1,25 @@
 import { StyleSheet } from "react-native";
 
 const Styles = StyleSheet.create({
+  Blue1: {
+    backgroundColor: "#B7D0FF",
+  },
+  Blue2: {
+    backgroundColor: "#3D589E",
+  },
+  Orange1: {
+    backgroundColor: "#FFC961",
+  },
+  Orange2: {
+    backgroundColor: "#F45421",
+  },
+  Green1: {
+    backgroundColor: "#8CF697",
+  },
+  Green2: {
+    backgroundColor: "#44A32C",
+  },
+
   defaultText: {
     fontWeight: "normal",
     fontSize: 20,
@@ -43,11 +62,9 @@ const Styles = StyleSheet.create({
   },
 
   defaultButton: {
-    backgroundColor: "#3D589E",
     margin: 10,
     borderRadius: 5,
     width: "75%",
-    height: "5%",
     justifyContent: "center",
     alignItems: "center",
   },
@@ -71,7 +88,6 @@ const Styles = StyleSheet.create({
     flex: 1,
     alignItems: "center",
     justifyContent: "center",
-    backgroundColor: "#B7D0FF",
     width: "100%",
   },
 
@@ -81,6 +97,13 @@ const Styles = StyleSheet.create({
     backgroundColor: "#00000023",
     margin: 5,
     width: "80%",
+  },
+
+  optionsContainer: {
+    alignItems: "center",
+    backgroundColor: "#00000023",
+    margin: 5,
+    width: "90%",
   },
 
   playerRankingContainer: {

@@ -3,6 +3,10 @@ import Styles from "../Styles.js";
 import { View, Text, ScrollView } from "react-native";
 import { ref, onValue } from "firebase/database";
 import { db } from "../../firebaseConfig.js";
+import {
+  GetStyle1FromTheme,
+  GetStyle2FromTheme,
+} from "../Services/ThemeUtility.js";
 
 function RankingsScreen({ navigation }) {
   const [dbInitialized, setDBInitialized] = useState(false);
@@ -49,8 +53,8 @@ function RankingsScreen({ navigation }) {
   };
 
   return (
-    <View style={Styles.mainContainer}>
-      <Text style={Styles.defaultText}>Classement : </Text>
+    <View style={[Styles.mainContainer, GetStyle1FromTheme()]}>
+      <Text style={Styles.boldText}>Classement : </Text>
       <ScrollView style={Styles.defaultScrollView}>
         {GetPlayerList()}
       </ScrollView>

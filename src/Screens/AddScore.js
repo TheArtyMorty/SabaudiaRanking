@@ -5,6 +5,10 @@ import { Picker } from "@react-native-picker/picker";
 import { ref, onValue } from "firebase/database";
 import { db } from "../../firebaseConfig.js";
 import { addScore, updatePlayerMMR } from "../Services/WebService.js";
+import {
+  GetStyle1FromTheme,
+  GetStyle2FromTheme,
+} from "../Services/ThemeUtility.js";
 
 function AddScoreScreen({ navigation }) {
   const [dbInitialized, setDBInitialized] = useState(false);
@@ -99,10 +103,10 @@ function AddScoreScreen({ navigation }) {
     const topMmrMoyen = Math.max(noteA, noteB);
     const ecart = topMmrMoyen / lowMmrMoyen - 1;
     //proba win
-    const probaWl = Math.max(0.01, 0.5 - ecart);
-    const probaWt = Math.min(0.99, 0.5 + ecart);
+    const probaWl = Math.max(0.1, 0.5 - ecart);
+    const probaWt = Math.min(0.9, 0.5 + ecart);
     //gain
-    const gain = Math.max(25 * (noteA > noteB ? probaWt : probaWl), 1);
+    const gain = Math.max(30 * (noteA > noteB ? probaWt : probaWl), 1);
     // bonuses
     const bonus2sets = twosets ? 5 * (noteA > noteB ? probaWl : probaWt) : 0;
     const bonusPts =
@@ -263,7 +267,7 @@ function AddScoreScreen({ navigation }) {
   const [B3, setB3] = useState();
 
   return (
-    <View style={Styles.mainContainer}>
+    <View style={[Styles.mainContainer, GetStyle1FromTheme()]}>
       <View style={Styles.subContainer}>
         <Text style={Styles.defaultText}>Equipe A : </Text>
         <View style={Styles.lineContainer}>
@@ -355,7 +359,10 @@ function AddScoreScreen({ navigation }) {
         </View>
       </View>
 
-      <View style={Styles.defaultButton} onTouchStart={validateGame}>
+      <View
+        style={[Styles.defaultButton, GetStyle2FromTheme()]}
+        onTouchStart={validateGame}
+      >
         <Text style={Styles.defaultButtonContent}>Valider la partie</Text>
       </View>
     </View>
