@@ -9,18 +9,12 @@ import {
   GetStyle1FromTheme,
   GetStyle2FromTheme,
 } from "../Services/ThemeUtility.js";
+import { defaultPlayer } from "../Services/PlayerUtility.js";
 
 function AddScoreScreen({ navigation }) {
   const [dbInitialized, setDBInitialized] = useState(false);
   const [playerList, setPlayerList] = useState([]);
 
-  const defaultPlayer = {
-    FirstName: "",
-    LastName: "",
-    MMR: 0,
-    Pseudo: "...",
-    Key: "",
-  };
   const UpdatePlayerList = (data) => {
     let newData = [defaultPlayer];
 
@@ -34,7 +28,9 @@ function AddScoreScreen({ navigation }) {
       });
     });
 
-    setPlayerList((previousData) => newData);
+    setPlayerList((previousData) =>
+      newData.sort((a, b) => a.Pseudo.localeCompare(b.Pseudo))
+    );
   };
 
   if (!dbInitialized) {

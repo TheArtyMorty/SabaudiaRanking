@@ -42,8 +42,8 @@ export const addScore = (
     Victory: winner,
     Scores: {
       Set1: { A: A1, B: B1 },
-      set2: { A: A2, B: B2 },
-      set3: { A: A3, B: B3 },
+      Set2: { A: A2, B: B2 },
+      Set3: { A: A3, B: B3 },
     },
     Date: new Date().toLocaleString(),
     Gain: mmrGain,

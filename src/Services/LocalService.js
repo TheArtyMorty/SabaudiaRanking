@@ -1,5 +1,13 @@
 import AsyncStorage from "@react-native-async-storage/async-storage";
 
+export const storePlayer = async (value) => {
+  await storeKeyValue("Player", value);
+};
+
+export const getPlayer = async (value) => {
+  return await getKeyValue("Player", value);
+};
+
 export const storeClub = async (value) => {
   await storeKeyValue("Club", value);
 };

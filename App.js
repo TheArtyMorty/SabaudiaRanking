@@ -5,6 +5,7 @@ import RankingsScreen from "./src/Screens/Rankings.js";
 import ChooseClubScreen from "./src/Screens/Club.js";
 import OptionsScreen from "./src/Screens/Options.js";
 import PlayerScreen from "./src/Screens/Player.js";
+import GameScreen from "./src/Screens/Game.js";
 import * as React from "react";
 import { NavigationContainer } from "@react-navigation/native";
 import { createNativeStackNavigator } from "@react-navigation/native-stack";
@@ -19,6 +20,7 @@ function App() {
         <Stack.Screen name="Ajouter un score" component={AddScoreScreen} />
         <Stack.Screen name="Ajouter un joueur" component={AddPlayerScreen} />
         <Stack.Screen name="Page joueur" component={PlayerScreen} />
+        <Stack.Screen name="Page de match" component={GameScreen} />
         <Stack.Screen name="Classement" component={RankingsScreen} />
         <Stack.Screen name="Options" component={OptionsScreen} />
         <Stack.Screen

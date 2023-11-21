@@ -104,9 +104,10 @@ function PlayerScreen({ navigation, route }) {
           <View
             style={Styles.playerRankingContainer}
             key={index}
-            /*onTouchEnd={() => {
+            onTouchEnd={() => {
+              console.log(g.ID);
               navigation.navigate("Page de match", { gameID: g.ID });
-            }}*/
+            }}
           >
             <View style={Styles.lineContainer}>
               <Text style={Styles.boldText}>
@@ -126,15 +127,21 @@ function PlayerScreen({ navigation, route }) {
 
   return (
     <View style={[Styles.mainContainer, GetStyle1FromTheme()]}>
-      <View style={Styles.lineContainer}>
-        <Text style={Styles.boldText}>{player.Pseudo}</Text>
-        <Image
-          style={Styles.defaultImage}
-          source={require("../../assets/IconFavorite.png")}
-        ></Image>
-      </View>
+      <Text style={Styles.boldText}>{player.Pseudo}</Text>
       <Text style={Styles.defaultText}>
         Actuellement classé #{player.Rank} avec {player.MMR} points.
+      </Text>
+      <Text style={Styles.defaultText}>
+        Winrate :{" "}
+        {Math.round(
+          (playerHistory.filter((g) => g.IWasOnTeam == g.Victory).length /
+            playerHistory.length) *
+            100
+        )}
+        {"% "}
+        {"("}
+        {playerHistory.filter((g) => g.IWasOnTeam == g.Victory).length} sur{" "}
+        {playerHistory.length} {")"}.
       </Text>
       <Text style={Styles.defaultText}>Historique des parties : </Text>
       <ScrollView style={Styles.defaultScrollView}>

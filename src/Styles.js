@@ -55,6 +55,11 @@ const Styles = StyleSheet.create({
     marginLeft: 10,
   },
 
+  mainPageImage: {
+    width: 250,
+    height: 250,
+  },
+
   scoreInput: {
     fontWeight: "bold",
     backgroundColor: "white",
@@ -94,7 +99,7 @@ const Styles = StyleSheet.create({
   mainContainer: {
     flex: 1,
     alignItems: "center",
-    justifyContent: "center",
+    justifyContent: "top",
     width: "100%",
   },
 
