@@ -26,6 +26,7 @@ export const addScore = (
   player3,
   player4,
   winner,
+  mmrGain,
   A1,
   A2,
   A3,
@@ -33,6 +34,8 @@ export const addScore = (
   B2,
   B3
 ) => {
+  const newItemKey = push(child(ref(db), global.ClubPath + "/games")).key;
+
   const itemData = {
     TeamA: { player1: player1, player2: player2 },
     TeamB: { player1: player3, player2: player4 },
@@ -43,9 +46,9 @@ export const addScore = (
       set3: { A: A3, B: B3 },
     },
     Date: new Date().toLocaleString(),
+    Gain: mmrGain,
+    Key: newItemKey,
   };
-
-  const newItemKey = push(child(ref(db), global.ClubPath + "/games")).key;
 
   const updates = {};
   updates[global.ClubPath + "/games/" + newItemKey] = itemData;

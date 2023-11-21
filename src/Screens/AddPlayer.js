@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Styles from "../Styles.js";
-import { View, Text, TextInput, Alert } from "react-native";
+import { View, Text, TextInput, Alert, Image } from "react-native";
 import { addPlayer } from "../Services/WebService.js";
 import {
   GetStyle1FromTheme,
@@ -55,7 +55,13 @@ function AddPlayerScreen({ navigation }) {
         style={[Styles.defaultButton, GetStyle2FromTheme()]}
         onTouchStart={createPlayer}
       >
-        <Text style={Styles.defaultButtonContent}>Créer le joueur</Text>
+        <View style={Styles.lineContainer}>
+          <Image
+            style={Styles.defaultImage}
+            source={require("../../assets/IconPlus.png")}
+          ></Image>
+          <Text style={Styles.defaultButtonContent}>Créer le joueur</Text>
+        </View>
       </View>
     </View>
   );

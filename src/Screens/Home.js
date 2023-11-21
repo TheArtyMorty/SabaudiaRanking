@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Styles from "../Styles.js";
-import { View, Text } from "react-native";
+import { View, Text, Image } from "react-native";
 import { getAdmin, getClub } from "../Services/LocalService.js";
 import {
   GetStyle1FromTheme,
@@ -44,14 +44,26 @@ function HomeScreen({ navigation }) {
         style={[Styles.defaultButton, GetStyle2FromTheme()]}
         onTouchStart={() => navigation.navigate("Ajouter un score")}
       >
-        <Text style={Styles.defaultButtonContent}>Entrer un score</Text>
+        <View style={Styles.lineContainer}>
+          <Image
+            style={Styles.defaultImage}
+            source={require("../../assets/IconPlus.png")}
+          ></Image>
+          <Text style={Styles.defaultButtonContent}>Entrer un score</Text>
+        </View>
       </View>
 
       <View
         style={[Styles.defaultButton, GetStyle2FromTheme()]}
         onTouchStart={() => navigation.navigate("Classement")}
       >
-        <Text style={Styles.defaultButtonContent}>Classement</Text>
+        <View style={Styles.lineContainer}>
+          <Image
+            style={Styles.defaultImage}
+            source={require("../../assets/IconRanking.png")}
+          ></Image>
+          <Text style={Styles.defaultButtonContent}>Classement</Text>
+        </View>
       </View>
 
       {isAdmin && (
@@ -59,7 +71,13 @@ function HomeScreen({ navigation }) {
           onTouchStart={() => navigation.navigate("Ajouter un joueur")}
           style={[Styles.defaultButton, GetStyle2FromTheme()]}
         >
-          <Text style={Styles.defaultButtonContent}>Ajouter un joueur</Text>
+          <View style={Styles.lineContainer}>
+            <Image
+              style={Styles.defaultImage}
+              source={require("../../assets/IconPlus.png")}
+            ></Image>
+            <Text style={Styles.defaultButtonContent}>Ajouter un joueur</Text>
+          </View>
         </View>
       )}
 
@@ -75,7 +93,13 @@ function HomeScreen({ navigation }) {
           })
         }
       >
-        <Text style={Styles.defaultButtonContent}>Options</Text>
+        <View style={Styles.lineContainer}>
+          <Image
+            style={Styles.defaultImage}
+            source={require("../../assets/IconOptions.png")}
+          ></Image>
+          <Text style={Styles.defaultButtonContent}>Options</Text>
+        </View>
       </View>
     </View>
   );

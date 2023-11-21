@@ -48,6 +48,13 @@ const Styles = StyleSheet.create({
     margin: 5,
   },
 
+  defaultImage: {
+    width: 25,
+    height: 25,
+    marginRight: 10,
+    marginLeft: 10,
+  },
+
   scoreInput: {
     fontWeight: "bold",
     backgroundColor: "white",

@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Styles from "../Styles.js";
-import { View, Text, ScrollView } from "react-native";
+import { View, Text, ScrollView, Image, TextInput } from "react-native";
 import { ref, onValue } from "firebase/database";
 import { db } from "../../firebaseConfig.js";
 import {
@@ -19,7 +19,9 @@ function RankingsScreen({ navigation }) {
         FirstName: player.FirstName,
         LastName: player.LastName,
         MMR: player.MMR,
+        ID: player.Key,
         Pseudo: player.Pseudo,
+        Rank: 0,
       });
     });
 
@@ -27,7 +29,6 @@ function RankingsScreen({ navigation }) {
   };
 
   if (!dbInitialized) {
-    console.log(global.ClubPath);
     const playersRef = ref(db, global.ClubPath + "/players/");
     onValue(playersRef, (snapshot) => {
       const data = snapshot.val();
@@ -40,21 +41,48 @@ function RankingsScreen({ navigation }) {
     return playerList
       .sort((a, b) => b.MMR - a.MMR)
       .map((p, index) => {
+        var newPlayer = p;
+        newPlayer.Rank = index + 1;
+        return newPlayer;
+      })
+      .filter((a) => a.Pseudo.indexOf(filter) >= 0)
+      .map((p, index) => {
         return (
-          <View style={Styles.playerRankingContainer} key={index}>
+          <View
+            style={Styles.playerRankingContainer}
+            key={index}
+            onTouchEnd={() =>
+              navigation.navigate("Page joueur", { playerID: p.ID })
+            }
+          >
             <View style={Styles.lineContainer}>
-              <Text style={Styles.boldText}>#{index + 1} -</Text>
+              <Text style={Styles.boldText}>#{p.Rank} -</Text>
               <Text style={Styles.defaultText}>{p.Pseudo}</Text>
-              <Text style={Styles.defaultText}> - {p.MMR}Pts -</Text>
+              <Text style={Styles.defaultText}> - {p.MMR} Pts -</Text>
             </View>
           </View>
         );
       });
   };
 
+  const [filter, setFilter] = useState("");
+
   return (
     <View style={[Styles.mainContainer, GetStyle1FromTheme()]}>
       <Text style={Styles.boldText}>Classement : </Text>
+      <View style={Styles.subContainer}>
+        <View style={Styles.lineContainer}>
+          <Image
+            style={Styles.defaultImage}
+            source={require("../../assets/IconSearch.png")}
+          ></Image>
+          <TextInput
+            style={Styles.defaultInput}
+            placeholder="..."
+            onChangeText={(Pseudo) => setFilter(Pseudo)}
+          ></TextInput>
+        </View>
+      </View>
       <ScrollView style={Styles.defaultScrollView}>
         {GetPlayerList()}
       </ScrollView>

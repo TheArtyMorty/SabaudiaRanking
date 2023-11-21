@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Styles from "../Styles.js";
-import { View, Text, Alert } from "react-native";
+import { View, Text, Alert, Image } from "react-native";
 import AsyncStorage from "@react-native-async-storage/async-storage";
 import { getClub } from "../Services/LocalService.js";
 import { Picker } from "@react-native-picker/picker";
@@ -19,7 +19,6 @@ function OptionsScreen({ navigation, route }) {
 
   const [theme, setTheme] = useState("Blue");
   const ChangeAppTheme = (t) => {
-    console.log(t);
     global.Theme = t;
     route.params.setRefresh();
   };
@@ -82,7 +81,13 @@ function OptionsScreen({ navigation, route }) {
             );
           }}
         >
-          <Text style={Styles.defaultButtonContent}>Quitter le club</Text>
+          <View style={Styles.lineContainer}>
+            <Image
+              style={Styles.defaultImage}
+              source={require("../../assets/IconLeave.png")}
+            ></Image>
+            <Text style={Styles.defaultButtonContent}>Quitter le club</Text>
+          </View>
         </View>
       </View>
     </View>

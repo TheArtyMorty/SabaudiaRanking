@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import Styles from "../Styles.js";
-import { View, Text, TextInput, Alert } from "react-native";
+import { View, Text, TextInput, Alert, Image } from "react-native";
 import { Picker } from "@react-native-picker/picker";
 import { ref, onValue } from "firebase/database";
 import { db } from "../../firebaseConfig.js";
@@ -112,17 +112,17 @@ function AddScoreScreen({ navigation }) {
     const bonusPts =
       Math.min(Math.floor((ptsWinner - ptsLooser) / ptsLooser / 0.05), 5) *
       (noteA > noteB ? probaWl : probaWt);
-    console.log("------");
-    /*console.log(noteA);
+    /*console.log("------");
+    console.log(noteA);
     console.log(noteB);
     console.log(lowMmrMoyen);
     console.log(topMmrMoyen);
     console.log(ecart);
     console.log(probaWl);
-    console.log(probaWt);*/
+    console.log(probaWt);
     console.log(gain);
     console.log(bonus2sets);
-    console.log(bonusPts);
+    console.log(bonusPts);*/
     return Math.floor(gain + bonus2sets + bonusPts);
   };
 
@@ -229,6 +229,7 @@ function AddScoreScreen({ navigation }) {
               player3,
               player4,
               winner,
+              mmrGain,
               a1,
               a2,
               a3,
@@ -363,7 +364,13 @@ function AddScoreScreen({ navigation }) {
         style={[Styles.defaultButton, GetStyle2FromTheme()]}
         onTouchStart={validateGame}
       >
-        <Text style={Styles.defaultButtonContent}>Valider la partie</Text>
+        <View style={Styles.lineContainer}>
+          <Image
+            style={Styles.defaultImage}
+            source={require("../../assets/IconValidate.png")}
+          ></Image>
+          <Text style={Styles.defaultButtonContent}>Valider la partie</Text>
+        </View>
       </View>
     </View>
   );
