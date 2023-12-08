@@ -30,3 +30,9 @@
 
 // Pour un apk :
 // eas build --profile test --platform android
+
+// Pour IOS : 
+// To Build :
+//     eas build --profile production --platform ios
+// To upload
+//     eas submit -p ios
